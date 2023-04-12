@@ -9,6 +9,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "bcrypt": "^5.1.0",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
@@ -17,6 +18,7 @@
         "knex": "^2.3.0",
         "node-fetch": "^3.3.0",
         "node-html-parser": "^6.1.4",
+        "nodemailer": "^6.9.1",
         "nodemon": "^2.0.20",
         "objection": "^3.0.1",
         "passport": "^0.6.0",
@@ -25,6 +27,7 @@
         "random": "^4.1.0",
         "random-lib": "^3.0.0",
         "random-words": "^1.2.0",
+        "translate": "^1.4.1",
         "util": "^0.12.5",
         "uuid": "^9.0.0"
     }

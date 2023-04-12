@@ -1,4 +1,4 @@
-const arr = [
+[
     'abreact',
     'abreacted',
     'abreacting',
@@ -178187,5 +178187,3 @@ const arr = [
     'zyzzyvas',
     'zzz',
 ];
-
-console.log(arr.length);
