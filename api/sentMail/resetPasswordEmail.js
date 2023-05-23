@@ -16,15 +16,7 @@ const sendMail = (email, token) => {
             <p>Чтобы завершить регистрацию, необходимо подтвердить email, перейдя по этой ссылке: <a href="https://localhost:3000/confirm-email/${token}" target="_blank">Подтверждение email</a></p>
         </body>
     </html>`;
-    const { transporter, mailOption } = generateMail(email, subject, html);
-
-    transporter.sendMail(mailOption, (error, info) => {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    generateMail(email, subject, html);
 };
 
 module.exports = sendMail;

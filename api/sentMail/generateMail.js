@@ -18,7 +18,13 @@ const generateMail = (email, subject, html) => {
         html,
     };
 
-    return { transporter, mailOption };
+    transporter.sendMail(mailOption, (error, info) => {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
 };
 
 module.exports = generateMail;

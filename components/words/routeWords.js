@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const controller = require('../controllers/words');
+const controller = require('./controllerWords');
 
 router.get(
     '/all',
@@ -9,6 +9,7 @@ router.get(
     controller.getAll,
 );
 router.get('/random', controller.getRandom);
+router.get('/search', controller.search);
 /*router.get(
     '/:id',
     passport.authenticate('passportEditor', { session: false }),

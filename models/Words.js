@@ -2,7 +2,7 @@ const { Model } = require('objection');
 
 class Words extends Model {
     static get tableName() {
-        return 'WORDS';
+        return 'NEW_WORDS';
     }
 }
 

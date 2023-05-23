@@ -9,7 +9,6 @@ const Users = require('../models/Users');
 const usersAPI = require('../api/users/index');
 
 const SALT = require('../constants/saltCrypt');
-const sendMail = require('../api/sentMail/confirmEmail');
 const errorJSON = require('../api/json/errorJSON');
 
 const errorConst = require('../constants/error');
@@ -87,79 +86,12 @@ const authorizate = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
-        const { user } = req.body;
-        const existsUserName = await Users.query()
-            .where('userName', user.userName)
-            .first();
-        if (existsUserName) {
-            res.status(200).json({
-                type: 'error',
-                payload: {
-                    title: 'Пользователь с таким именем уже существует',
-                    description: 'Выберите другое имя пользователя!',
-                    type: 'error',
-                },
-            });
-        } else {
-            const existsUserEmail = await Users.query()
-                .where('email', user.email)
-                .first();
-            if (existsUserEmail) {
-                res.status(200).json({
-                    type: 'error',
-                    payload: {
-                        title: 'Пользователь с таким email уже существует',
-                        description: 'Выберите другой email!',
-                        type: 'error',
-                    },
-                });
-            } else {
-                const confirmEmailToken = jwt.sign(
-                    {
-                        userName: user.userName,
-                        email: user.email,
-                    },
-                    process.env.JWT,
-                    { expiresIn: 60 * 60 * 6 },
-                );
-                const createUser = await Users.query().insert({
-                    userName: user.userName,
-                    email: user.email,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    password: bcrypt.hashSync(user.password, SALT),
-                    tokenConfirmEmail: confirmEmailToken,
-                });
-                sendMail(
-                    createUser.email,
-                    createUser.userName,
-                    confirmEmailToken,
-                );
-                res.status(200).json({
-                    type: 'createUser',
-                    payload: {
-                        title: 'Пользователь успешно создан',
-                        description: `Письмо для подтверждения было отправленно на почту ${createUser.email}`,
-                        type: 'success',
-                        user: {
-                            userName: createUser.userName,
-                            email: createUser.email,
-                            firstName: createUser.firstName,
-                            lastName: createUser.lastName,
-                        },
-                    },
-                });
-            }
-        }
-    } catch (err) {
-        res.status(200).json({
-            type: 'error',
-            payload: {
-                title: 'Server error',
-                description: err.message,
-                type: 'error',
-            },
+        usersAPI.signup(req.body.user).then((response) => {
+            res.status(200).json(response);
         });
+    } catch (e) {
+        console.log(e.message);
+        res.status(200).json(errorJSON(errorConst.SERVER));
     }
 };
 
@@ -219,6 +151,7 @@ const resetPasswordEmail = async (req, res) => {
             res.status(200).json(response);
         });
     } catch (e) {
+        console.log(e.message);
         res.status(200).json(errorJSON(errorConst.SERVER));
     }
 };

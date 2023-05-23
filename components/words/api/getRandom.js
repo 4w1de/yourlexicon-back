@@ -1,15 +1,15 @@
-const NewWords = require('../../models/NewWords');
+const Words = require('../../../models/Words');
 const rand = require('random-lib');
 
-const randomWordJSON = require('../json/randomWordJSON');
-const errorJSON = require('../json/errorJSON');
-const translateWords = require('./api/translateWords');
+const randomWordJSON = require('../../../api/json/randomWordJSON');
+const errorJSON = require('../../../api/json/errorJSON');
+const translateWords = require('./translateWords');
 
-const errorConst = require('../../constants/error');
+const errorConst = require('../../../constants/error');
 
 const getRandom = async () => {
     try {
-        const { count: maxID } = await NewWords.query().count().first();
+        const { count: maxID } = await Words.query().count().first();
         const opts = {
             min: 1,
             max: maxID,
@@ -17,7 +17,7 @@ const getRandom = async () => {
         };
         const randomNum = rand.intsSync(opts)[0];
 
-        const random = await NewWords.query().where('id', randomNum).first();
+        const random = await Words.query().where('id', randomNum).first();
         if (!random) {
             return errorJSON(errorConst.GETTING_RANDOM_WORD);
         }

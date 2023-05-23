@@ -1,4 +1,4 @@
-const Words = require('../../models/Words');
+const Words = require('../../../models/Words');
 
 const getAll = async (page = 1) => {
     const { results: words, total } = await Words.query()
